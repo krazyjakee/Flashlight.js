@@ -80,7 +80,6 @@ Flashlight = (function() {
     }
     if (lights.length > 2) {
       count = 0;
-      console.log(blendCount + ' ' + lights.length);
       for (i = _j = blendCount, _ref = lights.length; blendCount <= _ref ? _j < _ref : _j > _ref; i = blendCount <= _ref ? ++_j : --_j) {
         filterElem += "<feBlend result=\"blend" + (i + 1) + "\" in=\"blend" + (i - 1 + count) + "\" in2=\"blend" + (i + count) + "\" mode=\"multiply\" />";
       }
