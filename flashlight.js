@@ -1,7 +1,8 @@
 var Flashlight;
 
 window.FlashlightStore = {
-  svgCount: 0
+  svgCount: 0,
+  template: '<svg id="flashlight-svg-{{count}}" width="{{width}}" height="{{height}}" xmlns="http://www.w3.org/2000/svg"><defs>{{{gradient}}}<mask id="mask1" x="0" y="0" width="{{width}}" height="{{height}}"><rect x="0" y="0" width="{{width}}" height="{{height}}" fill="white" /><ellipse filter="url(#flashlight-filter-{{count}})" ry="{{halfHeight}}" rx="{{halfWidth}}" cy="122.5" cx="101.5" stroke-width="none" fill="url(#flashlight-gradient-{{count}})"/></mask>{{{filters}}}</defs><g><rect x="0" y="0" width="{{width}}" height="{{height}}" mask="url(#mask1)" fill="black" /></g></svg>'
 };
 
 Flashlight = (function() {
@@ -18,7 +19,7 @@ Flashlight = (function() {
   Flashlight.prototype.lights = 0;
 
   function Flashlight(target, properties) {
-    var count, height, id, lightHeight, lightWidth, that, width;
+    var count, height, id, lightHeight, lightWidth, svgElem, that, width;
     count = FlashlightStore.svgCount++;
     this.id = id = count;
     this.width = width = $(target).width();
@@ -27,22 +28,19 @@ Flashlight = (function() {
     this.lightHeight = lightHeight = properties.height;
     this.lights = properties.lights;
     that = this;
-    $.get('template.mustache', function(res) {
-      var svgElem;
-      svgElem = Mustache.render(res, {
-        id: id,
-        count: count,
-        width: width,
-        height: height,
-        lightWidth: lightWidth,
-        lightHeight: lightHeight,
-        halfWidth: lightWidth / 2,
-        halfHeight: lightHeight / 2,
-        gradient: that.addGradient(properties.gradient),
-        filters: that.addFilter(properties.lights)
-      });
-      return target.append(svgElem);
+    svgElem = Mustache.render(FlashlightStore.template, {
+      id: id,
+      count: count,
+      width: width,
+      height: height,
+      lightWidth: lightWidth,
+      lightHeight: lightHeight,
+      halfWidth: lightWidth / 2,
+      halfHeight: lightHeight / 2,
+      gradient: that.addGradient(properties.gradient),
+      filters: that.addFilter(properties.lights)
     });
+    target.append(svgElem);
   }
 
   Flashlight.prototype.addGradient = function(gradient) {

@@ -1,5 +1,6 @@
 window.FlashlightStore = 
   svgCount: 0
+  template: '<svg id="flashlight-svg-{{count}}" width="{{width}}" height="{{height}}" xmlns="http://www.w3.org/2000/svg"><defs>{{{gradient}}}<mask id="mask1" x="0" y="0" width="{{width}}" height="{{height}}"><rect x="0" y="0" width="{{width}}" height="{{height}}" fill="white" /><ellipse filter="url(#flashlight-filter-{{count}})" ry="{{halfHeight}}" rx="{{halfWidth}}" cy="122.5" cx="101.5" stroke-width="none" fill="url(#flashlight-gradient-{{count}})"/></mask>{{{filters}}}</defs><g><rect x="0" y="0" width="{{width}}" height="{{height}}" mask="url(#mask1)" fill="black" /></g></svg>'
 
 class Flashlight
 
@@ -21,20 +22,19 @@ class Flashlight
 
     that = @
 
-    $.get 'template.mustache', (res) ->
-      svgElem = Mustache.render res,
-        id: id
-        count: count
-        width: width
-        height: height
-        lightWidth: lightWidth
-        lightHeight: lightHeight
-        halfWidth: lightWidth / 2
-        halfHeight: lightHeight / 2
-        gradient: that.addGradient(properties.gradient)
-        filters: that.addFilter(properties.lights)
+    svgElem = Mustache.render FlashlightStore.template,
+      id: id
+      count: count
+      width: width
+      height: height
+      lightWidth: lightWidth
+      lightHeight: lightHeight
+      halfWidth: lightWidth / 2
+      halfHeight: lightHeight / 2
+      gradient: that.addGradient(properties.gradient)
+      filters: that.addFilter(properties.lights)
 
-      target.append svgElem
+    target.append svgElem
 
   addGradient: (gradient) ->
     id = "flashlight-gradient-#{@id}"
