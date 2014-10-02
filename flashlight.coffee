@@ -67,11 +67,11 @@ class Flashlight
       blendCount++
       filterElem += "<feBlend result=\"blend#{blendCount}\" in=\"blend#{blendCount-1}\" in2=\"light#{lights.length-1}\" mode=\"multiply\" />"
 
-    if blendCount > 1
-      count = 1
+    if lights.length > 2
+      count = 0
+      console.log blendCount + ' ' + lights.length
       for i in [blendCount...lights.length]
-        filterElem += "<feBlend result=\"blend#{i+1}\" in=\"blend#{i-2+count}\" in2=\"blend#{i-1+count}\" mode=\"multiply\" />"
-        count++
+        filterElem += "<feBlend result=\"blend#{i+1}\" in=\"blend#{i-1+count}\" in2=\"blend#{i+count}\" mode=\"multiply\" />"
 
     filterElem += "</filter>"
     filterElem

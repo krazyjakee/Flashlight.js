@@ -5,7 +5,7 @@ $(window).load ->
     width: 210
     height: 200
     gradient: ["#888", "#aaa", "white"]
-    lights: [{x: 0, y: 0}, {x: 200, y: 200}, {x: 400, y: 100}]
+    lights: [{x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}]
 
   $('#flashlight').click (e) ->
      x = e.offsetX
